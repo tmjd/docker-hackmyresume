@@ -35,4 +35,14 @@ RUN apk add --no-cache \
 	do \
 		npm install $x; \
 	done && \
+	for x in $(\
+		# Needed to not run out of heap space for npm search
+		node --max-old-space-size=4000 \
+		# Search for all themes
+		/usr/bin/npm search fresh-theme | \
+		# Strip colors and cut just the name of the package
+    	sed -r "s/\x1B\[([0-9]{1,2}(;[0-9]{1,2})?)?[mGK]//g" | cut -f1 -d' '); \
+	do \
+		npm install $x; \
+	done && \
 	rm -rf /root/.npm
