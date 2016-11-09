@@ -19,7 +19,7 @@ RUN apk add --no-cache \
     mv /usr/bin/wkhtmltopdf /usr/bin/wkhtmltopdf-origin && \
     echo $'#!/usr/bin/env sh\n\
     Xvfb :0 -screen 0 1024x768x24 -ac +extension GLX +render -noreset & \n\
-    DISPLAY=:0.0 wkhtmltopdf-origin $@ \n\
+    DISPLAY=:0.0 wkhtmltopdf-origin --page-size ${PAGE_SIZE:-Letter} $@ \n\
     killall Xvfb\
     ' > /usr/bin/wkhtmltopdf && \
     chmod +x /usr/bin/wkhtmltopdf && \
